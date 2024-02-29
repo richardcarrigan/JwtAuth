@@ -7,4 +7,5 @@ To run this app locally:
 3. `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365` (creates a new SSL certificate)
 4. `touch .env`
 5. Add `PORT = 4000` and `NODE_ENV = 'development'` to .env file
-6. `npm run dev`
+6. Add a `SSL_CERT_PASSPHRASE` variable to your .env file with the value set the same as the passphrase used in step 3.
+7. `npm run dev`
