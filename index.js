@@ -86,7 +86,7 @@ if (process.env.NODE_ENV === 'production') {
   const httpsOptions = {
     key: fs.readFileSync('./key.pem'),
     cert: fs.readFileSync('./cert.pem'),
-    passphrase: 'JwtAuthBE'
+    passphrase: process.env.SSL_CERT_PASSPHRASE
   };
   https.createServer(httpsOptions, app).listen(port, () => {
     console.log(`Server is listening on port ${port}`);
