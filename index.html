@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JWT Authentication Example</title>
+  </head>
+
+  <body>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" />
+      <input type="submit" />
+    </form>
+
+    <h2>Secret Data</h2>
+    <button id="getDataBtn">Get Secret Data</button>
+    <div id="data"></div>
+
+    <script>
+      const loginForm = document.getElementById('loginForm');
+      loginForm.addEventListener('submit', formSubmitHandler);
+
+      const getDataBtn = document.getElementById('getDataBtn');
+      getDataBtn.addEventListener('click', dataRequestHandler);
+
+      const dataDiv = document.getElementById('data');
+
+      async function formSubmitHandler(e) {
+        e.preventDefault();
+
+        const username = e.target.username.value;
+        const password = e.target.password.value;
+
+        await login(username, password);
+      }
+
+      async function dataRequestHandler() {
+        const dataObj = await getSecretData();
+        dataDiv.innerHTML = dataObj.secretData;
+      }
+
+      // The user attempts to log in
+      async function login(username, password) {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Login failed');
+        }
+
+        const tokenObj = await response.json();
+        const token = tokenObj.token;
+
+        // Store the JWT in local storage
+        localStorage.setItem('token', token);
+      }
+
+      // The user attempts to access protected content
+      async function getSecretData() {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('/api/secret', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+
+        const data = await response.json();
+        return data;
+      }
+    </script>
+  </body>
+</html>
