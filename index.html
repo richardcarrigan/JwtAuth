@@ -56,22 +56,13 @@
         if (!response.ok) {
           throw new Error('Login failed');
         }
-
-        const tokenObj = await response.json();
-        const token = tokenObj.token;
-
-        // Store the JWT in local storage
-        localStorage.setItem('token', token);
       }
 
       // The user attempts to access protected content
       async function getSecretData() {
-        const token = localStorage.getItem('token');
-
         const response = await fetch('/api/secret', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          method: 'GET',
+          credentials: 'include',
         });
 
         if (!response.ok) {

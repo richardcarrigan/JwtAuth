@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import cookieParser from 'cookie-parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,8 +17,8 @@ const port = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(cors());
-
 app.use(express.static(__dirname));
+app.use(cookieParser());
 
 const users = {};
 
@@ -55,20 +56,24 @@ app.post('/api/login', (req, res) => {
   function issueToken() {
     const payload = { username };
     const token = jwt.sign(payload, 'secret key', { expiresIn: '1h' });
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 60 * 60 * 1000 // Expires after 1 hour
+    });
   
-    res.json({ token });
+    res.status(200).send({ success: true });
   }
 });
 
 app.get('/api/secret', (req, res) => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies.token;
   
-  if (!authHeader) {
+  if (!token) {
     return res.status(401).json({ error: 'No token provided' });
   }
   
-  const token = authHeader.split(' ')[1];
-
   jwt.verify(token, 'secret key', (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: 'Invalid token' });
