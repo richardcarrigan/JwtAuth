@@ -8,6 +8,7 @@
 
   <body>
     <h2>Login</h2>
+    <p id="msg"></p>
     <form id="loginForm">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" />
@@ -21,6 +22,8 @@
     <div id="data"></div>
 
     <script>
+      const msgEl = document.getElementById('msg');
+
       const loginForm = document.getElementById('loginForm');
       loginForm.addEventListener('submit', formSubmitHandler);
 
@@ -35,7 +38,15 @@
         const username = e.target.username.value;
         const password = e.target.password.value;
 
-        await login(username, password);
+        try {
+          await login(username, password);
+          msgEl.innerHTML = 'Login successful!';
+        } catch (err) {
+          msgEl.innerHTML = err;
+        } finally {
+          e.target.reset();
+          setTimeout(() => (msgEl.innerHTML = ''), 5000);
+        }
       }
 
       async function dataRequestHandler() {

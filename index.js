@@ -20,7 +20,9 @@ app.use(cors());
 app.use(express.static(__dirname));
 app.use(cookieParser());
 
-const users = {};
+const users = {
+  richard: { role: 'admin' }
+};
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -36,20 +38,27 @@ app.post('/api/login', (req, res) => {
   }
 
   // New user
-  if (!(username in users)) {
+  if (!(username in users) || !users[username].password) {
     // Hash the password
     bcrypt.hash(password, saltRounds, (err, hash) => {
-      users[username] = hash;
+      const newUser = {
+        password: hash,
+        role: users[username]?.role || 'default'
+      }
+      users[username] = newUser;
+
+      console.log(`User ${username} added/updated`);
 
       issueToken();
     });
   } else {
-    bcrypt.compare(password, users[username], (err, result) => {
+    bcrypt.compare(password, users[username].password, (err, result) => {
       if (err || !result) {
         res.status(401).json({ error: 'Invalid credentials' });
+      } else {
+        console.log(`User ${username} authenticated successfully`);
+        issueToken();
       }
-
-      issueToken();
     });
   }
 
@@ -79,7 +88,11 @@ app.get('/api/secret', (req, res) => {
       return res.status(401).json({ error: 'Invalid token' });
     }
 
-    res.json({ secretData: 'Here is your secret data!' });
+    const { username } = decoded;
+
+    res.json({
+      secretData: users[username].role === 'admin' ? 'Here is your super secret admin data!' : 'Here is your regular user data!'
+    });
   });
 });
 
