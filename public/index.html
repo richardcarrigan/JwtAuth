@@ -3,32 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JWT Authentication Example</title>
+    <title>JWT AuthN/AuthZ Sandbox</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
-    <h1>JWT Authentication and Authorization Example</h1>
-    <p>
-      To see admin data, log in with the "admin" username and any password. To
-      see data for a "default" user, log in with any other username and
-      password.
-    </p>
+    <header>
+      <div id="branding">
+        <img src="jwt_logo.svg" alt="JWT" />
+        <h1>JWT Authentication and Authorization Sandbox</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><button id="loginBtn">Log in / Sign up</button></li>
+          <li><button id="logoutBtn" class="hidden">Log out</button></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="errorMsg" class="hidden"></div>
+    <main>
+      <div>
+        <h2>Welcome to the JWT Authentication and Authorization Sandbox</h2>
+        <p>
+          The purpose of this project is to provide the simplest possible
+          example of handling JWT authentication, using as many "best practices"
+          as possible. I'm not a security expert, which is why I've created this
+          project as a sandbox, so I don't recommend using this 'as-is' for your
+          production apps. Instead, make sure you understand the features that
+          this app showcases and make sure that you're implementing them as
+          necessary into your apps.
+        </p>
+      </div>
 
-    <p id="errorMsg"></p>
-
-    <form id="loginForm">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" />
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" />
-      <input type="submit" value="Get data" />
-    </form>
-
-    <div id="data" class="hidden"></div>
-
-    <button id="logoutBtn" class="hidden">Log out</button>
-
+      <div>
+        <h3>Data</h3>
+        <p>
+          Once you successfully authenticate, you'll see the data corresponding
+          to your role below.
+        </p>
+        <p id="data" class="hidden"></p>
+      </div>
+    </main>
+    <dialog id="loginModal">
+      <p>
+        To see admin data, log in with the "admin" username and any password. To
+        see data for a "default" user, log in with any other username and
+        password.
+      </p>
+      <form method="dialog" id="loginForm">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required />
+        <input type="submit" value="Get data" />
+      </form>
+    </dialog>
     <script src="scripts.js"></script>
   </body>
 </html>

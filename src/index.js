@@ -122,6 +122,21 @@ app.get('/api/logout', (req, res) => {
   res.status(200).send({ success: true });
 });
 
+app.get('/api/auth/status', (req, res) => {
+  // Retrieve the token from the HttpOnly cookie
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.json({ isAuthenticated: false });
+  }
+
+  // Uses the encryption key to decrypt the JWT. If the decoding results in usable data,
+  // then the server * trusts * that it must have been issued BY the server.
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+    return res.json({ isAuthenticated: !err });
+  });
+});
+
 // Since app hosting providers handle HTTPS for us, the app can just create a simple HTTP server and pass the HTTPS responsibility to them.
 // For development, however, we need to manually create an HTTPS server using a self-signed certificate.
 if (process.env.NODE_ENV === 'production') {

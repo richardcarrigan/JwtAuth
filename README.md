@@ -21,7 +21,6 @@ Now that a user can successfully log in, access data commensurate with their rol
 
 - Password change
 - Use button once logged in to elevate role to 'admin' or downgrade role back to 'default' (eliminates need for 'admin' account in mock DB)
-- Style UI
 - Create exact same app using C#
 - Store hashed password in Redis cache
 - Local DB

@@ -1,8 +1,109 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
+  padding: 0;
+}
+
+button, input[type="submit"] {
+  background-color:lightgreen;
+  border-color: transparent;
+  border-radius: 0.3rem;
+
+  &:hover {
+    border-color: black;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  & input {
+    padding: 0.5rem;
+    margin-block-end: 1rem;
+  }
+}
+
+header {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: steelblue;
+  padding: 0.5rem;
+
+  & img {
+    height: 2.5rem;
+    width: auto;
+  }
+}
+
+nav ul {
+  display: flex;
+  gap: 1rem;
+
+  & li {
+    list-style-type: none;
+  }
+}
+
+main {
   max-width: 1400px;
+  margin: 0 auto;
   padding: 0 2rem;
+}
+
+p {
+  line-height: 1.2;
+}
+
+p, input, button {
+  font-size: 1.2rem;
+  line-height: 1.5;
 }
 
 .hidden {
   display: none;
+}
+
+#branding {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  & h1 {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+#errorMsg {
+  width: 100%;
+  background-color: rgba(255, 0, 0, 0.25);
+  padding: 1rem;
+}
+
+#loginModal {
+  border: 1px solid;
+  position: fixed;
+  inset: 0;
+  width: fit-content;
+  /* height: 5rem; */
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: auto;
+  background-color: white;
+  border-radius: 1rem;
+
+  & p {
+    width: 25rem;
+    max-width: 100vw;
+  }
+}
+
+::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
 }
