@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JWT Authentication Example</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <h1>JWT Authentication and Authorization Example</h1>
+    <p>
+      To see admin data, log in with the "admin" username and any password. To
+      see data for a "default" user, log in with any other username and
+      password.
+    </p>
+
+    <p id="errorMsg"></p>
+
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" />
+      <input type="submit" value="Get data" />
+    </form>
+
+    <div id="data" class="hidden"></div>
+
+    <button id="logoutBtn" class="hidden">Log out</button>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>

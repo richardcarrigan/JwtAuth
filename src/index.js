@@ -17,16 +17,12 @@ const port = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(cookieParser());
 
 const users = {
-  richard: { role: 'admin' }
+  admin: { role: 'admin' }
 };
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
 
 app.post('/api/login', (req, res) => {
   const saltRounds = 10;
@@ -94,6 +90,11 @@ app.get('/api/secret', (req, res) => {
       secretData: users[username].role === 'admin' ? 'Here is your super secret admin data!' : 'Here is your regular user data!'
     });
   });
+});
+
+app.get('/api/logout', (req, res) => {
+  res.cookie('token', '', { expires: new Date(0), httpOnly: true });
+  res.status(200).send({ success: true });
 });
 
 if (process.env.NODE_ENV === 'production') {
