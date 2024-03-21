@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | JWT AuthN/AuthZ Sandbox</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div id="branding">
+        <img src="jwt_logo.svg" alt="JWT" />
+        <h1>JWT Authentication and Authorization Sandbox</h1>
+      </div>
+      <a href="/logout" class="btn hidden" id="logoutBtn">Log out</a>
+    </header>
+    <div id="errorMsg" class="hidden"></div>
+    <main>
+      <div>
+        <p>
+          To see admin data, log in with the "admin" username and any password.
+          To see data for a "default" user, log in with any other username and
+          password.
+        </p>
+        <form action="/api/login" method="post">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" required />
+          <input type="submit" value="Get data" />
+        </form>
+      </div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
